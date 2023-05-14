@@ -2,7 +2,7 @@ const webpack = require("webpack");
 const path = require("path");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const HtmlWebpackInlineSourcePlugin = require("html-webpack-inline-source-plugin");
+const InlineChunkHtmlPlugin = require("react-dev-utils/InlineChunkHtmlPlugin");
 
 module.exports = (env, argv) => ({
   mode: argv.mode === "production" ? "production" : "development",
@@ -12,7 +12,6 @@ module.exports = (env, argv) => ({
     ui: "./src/ui.tsx",
     code: "./src/code.ts",
   },
-
   module: {
     rules: [
       {
@@ -26,13 +25,16 @@ module.exports = (env, argv) => ({
       },
     ],
   },
+  // Tells Webpack to generate "ui.html" and to inline "ui.ts" into it
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/ui.html",
       filename: "ui.html",
       inlineSource: ".(js|css)$",
       chunks: ["ui"],
+      inject: true,
     }),
-    // new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin),
+    // Not work for webpack 5
+    new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/.*/]),
   ],
 });

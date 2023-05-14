@@ -1,15 +1,10 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": ["es6"],
+    "lib": ["es6", "DOM"],
     "strict": true,
     "jsx": "react",
-    "typeRoots": [
-      "./node_modules/@types",
-      "./node_modules/@figma"
-    ]
+    "typeRoots": ["./node_modules/@types", "./node_modules/@figma"]
   },
-  "include": [
-    "./typings-custom/**/*.ts"
-  ]
+  "include": ["./typings-custom/**/*.ts"]
 }
