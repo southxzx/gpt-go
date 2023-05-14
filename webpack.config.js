@@ -37,4 +37,7 @@ module.exports = (env, argv) => ({
     // Not work for webpack 5
     new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/.*/]),
   ],
+  resolve: {
+    extensions: [".ts", ".js", ".tsx", ".d.ts"],
+  },
 });
