@@ -7,7 +7,7 @@ import "./ui.css";
 
 export const App = () => {
   const api = new ChatGPTApi({
-    apiKey: "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",
+    apiKey: "",
   });
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
