@@ -10,7 +10,8 @@
   "author": "",
   "license": "",
   "devDependencies": {
-    "@figma/plugin-typings": "^1.64.0",
+    "@figma/plugin-typings": "1.63.0",
+    "@types/lodash": "^4.14.194",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "css-loader": "^6.7.3",
@@ -23,7 +24,9 @@
     "webpack-cli": "^5.1.1"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "whatwg-fetch": "^3.6.2"
   }
 }
