@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 
+import "./ui.css";
+
 export const App = () => {
   return (
     <div>
