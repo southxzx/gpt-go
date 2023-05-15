@@ -1,1 +1,1 @@
-A Figma plugin tool using ChatGPT
+A Figma tool using ChatGPT to accelerate the design process.

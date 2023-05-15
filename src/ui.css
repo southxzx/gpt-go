@@ -1,0 +1,22 @@
+h1 {
+  color: red;
+}
+
+.block-content-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.item-box-wrapper {
+  border: 1px solid #cecece;
+  margin: 4px;
+  border-radius: 8px;
+  padding: 4px 4px;
+  cursor: pointer;
+}
+.item-box-wrapper p {
+  margin: 0;
+}
+.item-box-wrapper:hover {
+  border-color: #757575;
+}
