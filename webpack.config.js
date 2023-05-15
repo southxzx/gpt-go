@@ -10,7 +10,7 @@ module.exports = (env, argv) => ({
 
   entry: {
     ui: "./src/ui.tsx",
-    code: "./src/code.ts",
+    code: "./src/plugin/code.ts",
   },
   module: {
     rules: [

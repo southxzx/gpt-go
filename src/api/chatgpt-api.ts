@@ -16,9 +16,9 @@ export default class ChatGPTApi {
     this._apiURL = apiURL;
     this._model = model;
 
-    if (!this._apiKey) {
-      throw new Error("OpenAI missing required apiKey");
-    }
+    // if (!this._apiKey) {
+    //   throw new Error("OpenAI missing required apiKey");
+    // }
   }
 
   async sendMessage(textValue: string) {
@@ -67,5 +67,9 @@ export default class ChatGPTApi {
     });
     const data = await response.json();
     return data;
+  }
+
+  setApiKey(apiKey: string) {
+    this._apiKey = apiKey;
   }
 }
