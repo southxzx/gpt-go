@@ -1,5 +1,6 @@
 import React from "react";
 import ChatGPTApi from "../api/chatgpt-api";
+import BlockGenerate from "../components/BlockGenerate";
 import BlockResearch from "../components/BlockResearch";
 import Button from "../components/common/Button";
 import { POST_MESSAGE_TYPE } from "../types/post-message";
@@ -25,6 +26,7 @@ const MainScreen: React.FC<IMainScreenProps> = ({ api }) => {
 
   return (
     <div>
+      <BlockGenerate />
       <BlockResearch api={api} />
       <Button onClick={onLogout}>Logout</Button>
     </div>

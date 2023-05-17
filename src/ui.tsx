@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import ChatGPTApi from "./api/chatgpt-api";
-import BlockResearch from "./components/BlockResearch";
+import Tabs from "./components/common/Tabs";
 import EnterKeyScreen from "./screens/EnterKeyScreen";
 import MainScreen from "./screens/MainScreen";
 import { POST_MESSAGE_TYPE } from "./types/post-message";
@@ -19,6 +19,24 @@ export const App = () => {
   React.useEffect(() => {
     authenticateUser();
   });
+
+  const tab_items = [
+    {
+      label: "Quick Access",
+      children: <MainScreen api={api} />,
+      key: "quick_access",
+    },
+    {
+      label: "Prompt Template",
+      children: <div>Prompt Template</div>,
+      key: "prompt_template",
+    },
+    {
+      label: "About",
+      children: <div>about</div>,
+      key: "about",
+    },
+  ];
 
   const authenticateUser = async () => {
     parent.postMessage(
@@ -62,7 +80,7 @@ export const App = () => {
   }
 
   return isAuthenticated ? (
-    <MainScreen api={api} />
+    <Tabs items={tab_items} initialKey="quick_access" />
   ) : (
     <EnterKeyScreen onSubmitKey={onSubmitKey} />
   );

@@ -1,15 +1,17 @@
 import React from "react";
 
-interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface TextFieldProps
+  extends React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
   label?: string;
+  isTextArea?: boolean;
 }
 
 const TextField = (props: TextFieldProps) => {
-  const { label, ...rest } = props;
+  const { label, isTextArea, ...rest } = props;
   return (
     <div>
       {label && <label>{label}</label>}
-      <input {...rest} />
+      {isTextArea ? <textarea {...rest} /> : <input {...rest} />}
     </div>
   );
 };

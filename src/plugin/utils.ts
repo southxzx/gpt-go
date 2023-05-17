@@ -31,4 +31,26 @@ const postStorage = async (key: string, message: string) => {
   });
 };
 
-export { generateResearch, getStorage, postStorage };
+const generateUpdateText = async (message: string) => {
+  const textValue = message;
+  const nodes = figma.currentPage.selection as TextNode[];
+
+  if (nodes.length === 0) {
+    figma.notify("Select a text layer to update.");
+    return;
+  } else {
+    const node = nodes[0] as TextNode;
+    if (node.type !== "TEXT") {
+      figma.notify("Select a text layer to update.");
+      return;
+    } else {
+      await figma.loadFontAsync({ family: "Inter", style: "Regular" });
+      node.characters = textValue;
+      node.fontSize = 18;
+      node.fills = [{ type: "SOLID", color: { r: 1, g: 0, b: 0 } }];
+      node.resize(800, node.height);
+    }
+  }
+};
+
+export { generateResearch, getStorage, postStorage, generateUpdateText };
