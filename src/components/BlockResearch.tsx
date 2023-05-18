@@ -35,7 +35,7 @@ const BlockResearch: React.FC<IBlockResearchProps> = ({ api }) => {
 
   return (
     <div>
-      <span>Research</span>
+      <h3>Research</h3>
       {loading && <span>&nbsp;...loading</span>}
       <div className="block-content-wrapper">
         {mocks.map((mock) => (

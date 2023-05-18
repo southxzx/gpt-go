@@ -4,26 +4,35 @@ import {
   generateUpdateText,
   getStorage,
   postStorage,
+  getSelectionText,
+  notify,
 } from "./utils";
 
 figma.showUI(__html__, {
-  width: 500,
-  height: 500,
+  width: 400,
+  height: 400,
 });
 
 figma.ui.onmessage = (msg) => {
+  const message = msg.message || "";
   switch (msg.type) {
     case POST_MESSAGE_TYPE.GENERATE:
-      generateUpdateText(msg.message);
+      generateUpdateText(message);
       break;
     case POST_MESSAGE_TYPE.GENERATE_RESEARCH:
-      generateResearch(msg.message);
+      generateResearch(message);
       break;
     case POST_MESSAGE_TYPE.GET_STORAGE:
-      getStorage(msg.message);
+      getStorage(message);
       break;
     case POST_MESSAGE_TYPE.POST_STORAGE:
-      postStorage(msg.key, msg.message);
+      postStorage(msg.key, message);
+      break;
+    case POST_MESSAGE_TYPE.GET_SELECTION_TEXT:
+      getSelectionText();
+      break;
+    case POST_MESSAGE_TYPE.NOTIFY:
+      notify(message);
       break;
     default:
       break;

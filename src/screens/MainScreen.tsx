@@ -26,7 +26,7 @@ const MainScreen: React.FC<IMainScreenProps> = ({ api }) => {
 
   return (
     <div>
-      <BlockGenerate />
+      <BlockGenerate api={api} />
       <BlockResearch api={api} />
       <Button onClick={onLogout}>Logout</Button>
     </div>

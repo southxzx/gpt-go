@@ -1,3 +1,8 @@
+import {
+  MESSAGE_RESPONSE_TEXT,
+  POST_MESSAGE_TYPE,
+} from "../types/post-message";
+
 const generateResearch = async (message: string) => {
   const textValue = message;
   const node = figma.createText();
@@ -16,7 +21,7 @@ const getStorage = async (message = "") => {
   const storage = await figma.clientStorage.getAsync(message);
 
   figma.ui.postMessage({
-    type: "get-storage",
+    type: POST_MESSAGE_TYPE.GET_STORAGE,
     message: storage,
   });
 };
@@ -25,7 +30,7 @@ const postStorage = async (key: string, message: string) => {
   await figma.clientStorage.setAsync(key, message);
 
   figma.ui.postMessage({
-    type: "post-storage",
+    type: POST_MESSAGE_TYPE.POST_STORAGE,
     message,
     key,
   });
@@ -36,12 +41,12 @@ const generateUpdateText = async (message: string) => {
   const nodes = figma.currentPage.selection as TextNode[];
 
   if (nodes.length === 0) {
-    figma.notify("Select a text layer to update.");
+    notify(MESSAGE_RESPONSE_TEXT.SELECT_TEXT);
     return;
   } else {
     const node = nodes[0] as TextNode;
     if (node.type !== "TEXT") {
-      figma.notify("Select a text layer to update.");
+      notify(MESSAGE_RESPONSE_TEXT.SELECT_TEXT);
       return;
     } else {
       await figma.loadFontAsync({ family: "Inter", style: "Regular" });
@@ -53,4 +58,37 @@ const generateUpdateText = async (message: string) => {
   }
 };
 
-export { generateResearch, getStorage, postStorage, generateUpdateText };
+const getSelectionText = async () => {
+  const nodes = figma.currentPage.selection as TextNode[];
+  const node = nodes[0] as TextNode;
+
+  if (nodes.length === 0) {
+    notify(MESSAGE_RESPONSE_TEXT.SELECT_TEXT);
+    return;
+  } else {
+    const node = nodes[0] as TextNode;
+    if (node.type !== "TEXT") {
+      notify(MESSAGE_RESPONSE_TEXT.SELECT_TEXT);
+      return;
+    } else {
+      figma.ui.postMessage({
+        type: POST_MESSAGE_TYPE.GET_SELECTION_TEXT,
+        message: node.characters || "",
+      });
+      return;
+    }
+  }
+};
+
+const notify = (message: string) => {
+  figma.notify(message);
+};
+
+export {
+  generateResearch,
+  getStorage,
+  postStorage,
+  generateUpdateText,
+  getSelectionText,
+  notify,
+};

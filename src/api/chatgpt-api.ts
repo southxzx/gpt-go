@@ -72,4 +72,8 @@ export default class ChatGPTApi {
   setApiKey(apiKey: string) {
     this._apiKey = apiKey;
   }
+
+  get apiKey() {
+    return this._apiKey;
+  }
 }

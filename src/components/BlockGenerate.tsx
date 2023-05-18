@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "./common/Button";
 import TextField from "./common/TextField";
 
 import "../ui.css";
-import { POST_MESSAGE_TYPE } from "../types/post-message";
+import {
+  MESSAGE_RESPONSE_TEXT,
+  POST_MESSAGE_TYPE,
+} from "../types/post-message";
 import ItemBox from "./common/ItemBox";
 import ItemBoxSelect from "./common/ItemBoxSelect";
+import ChatGPTApi from "../api/chatgpt-api";
+import { get } from "lodash";
 
 const mocks = ["Simplify", "Make longer", "Make shorter"];
 const tone_options = [
@@ -17,32 +22,73 @@ const tone_options = [
 ];
 const translate_options = ["Vietnamese", "English"];
 
-const BlockGenerate: React.FC = () => {
+interface IBlockGenerateProps {
+  api: ChatGPTApi;
+}
+
+const BlockGenerate: React.FC<IBlockGenerateProps> = ({ api }) => {
   const [inputValue, setInputValue] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
-  const onGenerate = () => {
+
+  const onGenerate = async () => {
+    getSelectionText();
+  };
+
+  const getSelectionText = () => {
     parent.postMessage(
       {
         pluginMessage: {
-          type: POST_MESSAGE_TYPE.GENERATE,
-          message: inputValue,
+          type: POST_MESSAGE_TYPE.GET_SELECTION_TEXT,
         },
       },
       "*"
     );
   };
+
+  const generateResponse = async (selectionValue: string) => {
+    setLoading(true);
+    const messageValue = `${inputValue}: ${selectionValue}`;
+    const res = await api.sendMessage(messageValue);
+    const message = get(
+      res,
+      "choices[0].message.content",
+      "Can not generate! Please try again!"
+    );
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: POST_MESSAGE_TYPE.GENERATE,
+          message: message,
+        },
+      },
+      "*"
+    );
+    setLoading(false);
+  };
+
   const onClickOption = (text: string) => {
-    setInputValue(text);
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: POST_MESSAGE_TYPE.GENERATE,
-          message: text,
-        },
-      },
-      "*"
-    );
+    let newText = "";
+    if (inputValue) {
+      newText = `${inputValue}, ${text}`;
+    } else {
+      newText = text;
+    }
+    setInputValue(newText);
   };
+
+  const onReceiveMessageGenerate = (event: MessageEvent<any>) => {
+    const { type, message } = event.data.pluginMessage;
+    if (type === POST_MESSAGE_TYPE.GET_SELECTION_TEXT) {
+      message && generateResponse(message);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("message", onReceiveMessageGenerate);
+    return () =>
+      window.removeEventListener("message", onReceiveMessageGenerate);
+  }, [inputValue]);
+
   return (
     <div>
       <div className="block-generate-input-wrapper">
@@ -50,13 +96,14 @@ const BlockGenerate: React.FC = () => {
           isTextArea={true}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
+          className="block-generate-input"
         />
         <Button disabled={!inputValue} onClick={onGenerate}>
           Generate
         </Button>
       </div>
 
-      <span>Improve Copies</span>
+      <h3>Improve Copies</h3>
       {loading && <span>&nbsp;...loading</span>}
       <div className="block-content-wrapper">
         <ItemBoxSelect

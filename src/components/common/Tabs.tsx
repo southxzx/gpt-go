@@ -18,6 +18,7 @@ const Tabs: React.FC<ITabsProps> = ({ items, initialKey }) => {
           <button
             className={`tab-label ${activeTab === item.key ? "selected" : ""}`}
             onClick={() => setActiveTab(item.key)}
+            key={item.key}
           >
             {item.label}
           </button>
@@ -25,7 +26,10 @@ const Tabs: React.FC<ITabsProps> = ({ items, initialKey }) => {
       </div>
       <div>
         {items.map((item) => (
-          <div style={{ display: activeTab === item.key ? "block" : "none" }}>
+          <div
+            style={{ display: activeTab === item.key ? "block" : "none" }}
+            key={item.key}
+          >
             {item.children}
           </div>
         ))}

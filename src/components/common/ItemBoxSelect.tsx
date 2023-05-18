@@ -24,11 +24,7 @@ const ItemBoxSelect: React.FC<IItemBoxProps> = ({
         onSelect(newValue);
       }}
     >
-      {placeholder && (
-        <option selected hidden>
-          {placeholder}
-        </option>
-      )}
+      {placeholder && <option hidden>{placeholder}</option>}
       {values.map((value) => (
         <option value={value} key={value}>
           {value}

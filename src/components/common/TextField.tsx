@@ -9,10 +9,10 @@ interface TextFieldProps
 const TextField = (props: TextFieldProps) => {
   const { label, isTextArea, ...rest } = props;
   return (
-    <div>
+    <>
       {label && <label>{label}</label>}
-      {isTextArea ? <textarea {...rest} /> : <input {...rest} />}
-    </div>
+      {isTextArea ? <textarea rows={4} {...rest} /> : <input {...rest} />}
+    </>
   );
 };
 

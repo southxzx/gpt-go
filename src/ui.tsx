@@ -8,17 +8,13 @@ import { POST_MESSAGE_TYPE } from "./types/post-message";
 
 import "./ui.css";
 
-export const App = () => {
-  const api = new ChatGPTApi({
-    apiKey: "",
-  });
+const api = new ChatGPTApi({
+  apiKey: "",
+});
 
+export const App = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    authenticateUser();
-  });
 
   const tab_items = [
     {
@@ -73,7 +69,11 @@ export const App = () => {
     setIsAuthenticated(true);
   };
 
-  window.addEventListener("message", onReceiveMessage);
+  React.useEffect(() => {
+    authenticateUser();
+    window.addEventListener("message", onReceiveMessage);
+    return () => window.removeEventListener("message", onReceiveMessage);
+  }, []);
 
   if (loading) {
     return <p>...loading</p>;
