@@ -1,15 +1,13 @@
 import React from "react";
 import ChatGPTApi from "../api/chatgpt-api";
-import BlockGenerate from "../components/BlockGenerate";
-import BlockResearch from "../components/BlockResearch";
 import Button from "../components/common/Button";
 import { POST_MESSAGE_TYPE } from "../types/post-message";
 
-interface IMainScreenProps {
+interface IAboutScreenProps {
   api: ChatGPTApi;
 }
 
-const MainScreen: React.FC<IMainScreenProps> = ({ api }) => {
+const AboutScreen: React.FC<IAboutScreenProps> = ({ api }) => {
   const onLogout = () => {
     api.setApiKey("");
     parent.postMessage(
@@ -23,13 +21,11 @@ const MainScreen: React.FC<IMainScreenProps> = ({ api }) => {
       "*"
     );
   };
-
   return (
     <div>
-      <BlockGenerate api={api} />
-      <BlockResearch api={api} />
+      <Button onClick={onLogout}>Logout</Button>
     </div>
   );
 };
 
-export default MainScreen;
+export default AboutScreen;

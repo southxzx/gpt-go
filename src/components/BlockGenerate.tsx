@@ -20,7 +20,20 @@ const tone_options = [
   "Straightforward",
   "Friendly",
 ];
-const translate_options = ["Vietnamese", "English"];
+const translate_options = [
+  "Arabic",
+  "Chinese",
+  "English",
+  "French",
+  "German",
+  "Japanese",
+  "Korean",
+  "Portuguese",
+  "Russian",
+  "Spanish",
+  "Thai",
+  "Vietnamese",
+];
 
 interface IBlockGenerateProps {
   api: ChatGPTApi;

@@ -8,13 +8,14 @@
   --darkGrey: #544f5e;
   --extraLightPurple: #ccc1e1;
   --lightPurple: #59369d;
+  --linkPurple: #6f34e1;
   --darkPurple: #20133a;
   --textPrimary: #20133a;
 }
 
 body,
 button {
-  color: var(--black);
+  color: var(--textPrimary);
   font-family: "Helvetica Neue";
   font-size: 14px;
   line-height: 22px;
@@ -55,6 +56,41 @@ label {
 .content-wrapper {
   margin: 8px;
 }
+.enter-key-screen .key-input {
+  width: 100%;
+}
+.enter-key-screen h1 {
+  font-size: 20px;
+  line-height: 24px;
+  margin-bottom: 8px;
+  font-weight: 700;
+  padding-top: 12px;
+}
+.enter-key-screen .description {
+  color: var(--darkGrey);
+  margin: 0;
+  margin-bottom: 24px;
+}
+.enter-key-screen .bottom-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+.enter-key-screen .bottom-block .get-key-question {
+  color: var(--linkPurple);
+  cursor: pointer;
+}
+.get-key-guide-screen {
+  padding-top: 12px;
+}
+.get-key-guide-screen .guide-list {
+  padding-top: 16px;
+}
+.get-key-guide-screen .guide-list p {
+  margin: 0;
+  color: var(--textPrimary);
+}
 
 /* Button */
 .btn {
@@ -72,6 +108,18 @@ label {
 .btn-disabled {
   background-color: var(--extraLightPurple);
   cursor: not-allowed;
+}
+.btn-back {
+  background: var(--white);
+  border: none;
+  display: flex;
+  align-items: center;
+  color: var(--linkPurple);
+  padding-left: 0;
+  cursor: pointer;
+}
+.btn-back svg {
+  margin-right: 6px;
 }
 
 /* Tabs */
@@ -157,14 +205,19 @@ label {
   position: absolute;
   background-color: white;
   box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.078);
-  /* width: calc(100% - 8px); */
+  min-width: max-content;
   padding: 4px 0;
+  overflow-y: scroll;
+  right: 0px;
+  left: 0px;
+  max-height: 150px;
 }
 .dropdown-option > p {
   margin: 0;
 }
 .dropdown-option:hover {
   background-color: var(--grey1);
+  transition-duration: 300ms;
 }
 .dropdown-wrapper {
   position: relative;

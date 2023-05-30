@@ -2,6 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import ChatGPTApi from "./api/chatgpt-api";
 import Tabs from "./components/common/Tabs";
+import AboutScreen from "./screens/AboutScreen";
 import EnterKeyScreen from "./screens/EnterKeyScreen";
 import MainScreen from "./screens/MainScreen";
 import { POST_MESSAGE_TYPE } from "./types/post-message";
@@ -29,7 +30,7 @@ export const App = () => {
     },
     {
       label: "About",
-      children: <div>about</div>,
+      children: <AboutScreen api={api} />,
       key: "about",
     },
   ];

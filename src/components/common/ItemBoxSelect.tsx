@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import IconArrowUp from "../../assets/IconArrowUp";
+import useClickOutside from "../../hooks/useClickOutside";
 
 import "../../ui.css";
 
@@ -18,6 +19,15 @@ const ItemBoxSelect: React.FC<IItemBoxProps> = ({
     placeholder || "..."
   );
   const [open, setOpen] = React.useState<boolean>(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const selectRef = useRef<HTMLDivElement>(null);
+
+  const handleOutsideClick = (e: MouseEvent) => {
+    if (!selectRef.current?.contains(e.target as Node)) setOpen(false);
+    e.stopPropagation();
+  };
+
+  useClickOutside(contentRef, handleOutsideClick);
 
   const onClick = () => {
     setOpen(!open);
@@ -30,34 +40,19 @@ const ItemBoxSelect: React.FC<IItemBoxProps> = ({
   };
 
   return (
-    // <select
-    //   value={selectedValue}
-    //   className="item-box-wrapper"
-    //   onChange={(e) => {
-    //     const newValue = (e.target as any).value;
-    //     setSelectedValue(newValue);
-    //     onSelect(newValue);
-    //   }}
-    // >
-    //   {placeholder && <option hidden>{placeholder}</option>}
-    //   {values.map((value) => (
-    //     <option value={value} key={value}>
-    //       {value}
-    //     </option>
-    //   ))}
-    // </select>
     <div className="dropdown-wrapper">
       <div
         className={`item-box-wrapper item-box-dropdown-wrapper ${
           open ? "active" : ""
         }`}
         onClick={onClick}
+        ref={selectRef}
       >
         <p>{selectedValue}</p>
         <IconArrowUp />
       </div>
       {open && (
-        <div className="dropdown-content">
+        <div className="dropdown-content" ref={contentRef}>
           {values.map((value) => (
             <div key={value} className="dropdown-option">
               <p onClick={() => onSelectOption(value)}>{value}</p>
