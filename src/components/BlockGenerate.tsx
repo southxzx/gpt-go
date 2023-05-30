@@ -12,7 +12,7 @@ import ItemBoxSelect from "./common/ItemBoxSelect";
 import ChatGPTApi from "../api/chatgpt-api";
 import { get } from "lodash";
 
-const mocks = ["Simplify", "Make longer", "Make shorter"];
+const mocks = ["Simplify", "Make Longer", "Make Shorter"];
 const tone_options = [
   "Professional",
   "Confident",
@@ -97,24 +97,25 @@ const BlockGenerate: React.FC<IBlockGenerateProps> = ({ api }) => {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           className="block-generate-input"
+          placeholder="Generate copy for landing page..."
         />
         <Button disabled={!inputValue} onClick={onGenerate}>
           Generate
         </Button>
       </div>
 
-      <h3>Improve Copies</h3>
+      <label>Improve Copies</label>
       {loading && <span>&nbsp;...loading</span>}
       <div className="block-content-wrapper">
         <ItemBoxSelect
           values={tone_options}
           onSelect={(val) => onClickOption(`Change tone to ${val}`)}
-          placeholder="Change tone to..."
+          placeholder="Change Tone To..."
         />
         <ItemBoxSelect
           values={translate_options}
           onSelect={(val) => onClickOption(`Translate to ${val}`)}
-          placeholder="Translate to..."
+          placeholder="Translate To..."
         />
         {mocks.map((mock) => (
           <ItemBox text={mock} key={mock} onClick={() => onClickOption(mock)} />

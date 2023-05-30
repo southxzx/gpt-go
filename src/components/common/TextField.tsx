@@ -11,7 +11,7 @@ const TextField = (props: TextFieldProps) => {
   return (
     <>
       {label && <label>{label}</label>}
-      {isTextArea ? <textarea rows={4} {...rest} /> : <input {...rest} />}
+      {isTextArea ? <textarea rows={3} {...rest} /> : <input {...rest} />}
     </>
   );
 };

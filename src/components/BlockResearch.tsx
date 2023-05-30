@@ -6,7 +6,12 @@ import { POST_MESSAGE_TYPE } from "../types/post-message";
 
 import "../ui.css";
 
-const mocks = ["Sample User Flow", "Page Structure", "Page Layout"];
+const mocks = [
+  "Sample User Flow",
+  "Page Structure",
+  "User Personas",
+  "Competitor Analysis",
+];
 
 interface IBlockResearchProps {
   api: ChatGPTApi;
@@ -35,7 +40,7 @@ const BlockResearch: React.FC<IBlockResearchProps> = ({ api }) => {
 
   return (
     <div>
-      <h3>Research</h3>
+      <label>Research</label>
       {loading && <span>&nbsp;...loading</span>}
       <div className="block-content-wrapper">
         {mocks.map((mock) => (

@@ -79,10 +79,14 @@ export const App = () => {
     return <p>...loading</p>;
   }
 
-  return isAuthenticated ? (
-    <Tabs items={tab_items} initialKey="quick_access" />
-  ) : (
-    <EnterKeyScreen onSubmitKey={onSubmitKey} />
+  return (
+    <div className="content-wrapper">
+      {isAuthenticated ? (
+        <Tabs items={tab_items} initialKey="quick_access" />
+      ) : (
+        <EnterKeyScreen onSubmitKey={onSubmitKey} />
+      )}
+    </div>
   );
 };
 
