@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
-import Button from "./common/Button";
-import TextField from "./common/TextField";
-
-import "../ui.css";
-import {
-  MESSAGE_RESPONSE_TEXT,
-  POST_MESSAGE_TYPE,
-} from "../types/post-message";
-import ItemBox from "./common/ItemBox";
-import ItemBoxSelect from "./common/ItemBoxSelect";
-import ChatGPTApi from "../api/chatgpt-api";
 import { get } from "lodash";
 
-const mocks = ["Simplify", "Make Longer", "Make Shorter"];
+import TextField from "./common/TextField";
+import Button from "./common/Button";
+import ItemBox from "./common/ItemBox";
+import ItemBoxSelect from "./common/ItemBoxSelect";
+
+import { POST_MESSAGE_TYPE } from "../types/post-message";
+
+import ChatGPTApi from "../api/chatgpt-api";
+
+import "../ui.css";
+import BlockResearch from "./BlockResearch";
+
+const improve_options = ["Simplify", "Make Longer", "Make Shorter"];
 const tone_options = [
   "Professional",
   "Confident",
@@ -39,12 +40,20 @@ interface IBlockGenerateProps {
   api: ChatGPTApi;
 }
 
+const generateObj = new Map();
+
 const BlockGenerate: React.FC<IBlockGenerateProps> = ({ api }) => {
   const [inputValue, setInputValue] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [needSelectionText, setNeedSelectionText] =
+    React.useState<boolean>(false);
 
   const onGenerate = async () => {
-    getSelectionText();
+    if (needSelectionText) {
+      getSelectionText();
+    } else {
+      generateResponse();
+    }
   };
 
   const getSelectionText = () => {
@@ -58,9 +67,11 @@ const BlockGenerate: React.FC<IBlockGenerateProps> = ({ api }) => {
     );
   };
 
-  const generateResponse = async (selectionValue: string) => {
+  const generateResponse = async (selectionValue = "") => {
     setLoading(true);
-    const messageValue = `${inputValue}: ${selectionValue}`;
+    const messageValue = selectionValue
+      ? `${inputValue}: ${selectionValue}`
+      : inputValue;
     const res = await api.sendMessage(messageValue);
     const message = get(
       res,
@@ -72,6 +83,7 @@ const BlockGenerate: React.FC<IBlockGenerateProps> = ({ api }) => {
         pluginMessage: {
           type: POST_MESSAGE_TYPE.GENERATE,
           message: message,
+          needSelectionText,
         },
       },
       "*"
@@ -79,14 +91,26 @@ const BlockGenerate: React.FC<IBlockGenerateProps> = ({ api }) => {
     setLoading(false);
   };
 
-  const onClickOption = (text: string) => {
+  const onClickOption = (text: string, key: string) => {
+    generateObj.set(key, text);
     let newText = "";
-    if (inputValue) {
-      newText = `${inputValue}, ${text}`;
-    } else {
-      newText = text;
-    }
+    generateObj.forEach((value) => {
+      if (value) {
+        newText += newText.length ? `, ${value}` : value;
+      }
+    });
     setInputValue(newText);
+    if (!needSelectionText) {
+      setNeedSelectionText(true);
+    }
+  };
+
+  const onClickResearch = (text: string, _: string) => {
+    setInputValue(text);
+    generateObj.clear();
+    if (needSelectionText) {
+      setNeedSelectionText(false);
+    }
   };
 
   const onReceiveMessageGenerate = (event: MessageEvent<any>) => {
@@ -112,28 +136,37 @@ const BlockGenerate: React.FC<IBlockGenerateProps> = ({ api }) => {
           className="block-generate-input"
           placeholder="Generate copy for landing page..."
         />
-        <Button disabled={!inputValue} onClick={onGenerate}>
+        <Button
+          disabled={!inputValue}
+          onClick={onGenerate}
+          loading={loading}
+          style={{ minWidth: 82 }}
+        >
           Generate
         </Button>
       </div>
 
       <label>Improve Copies</label>
-      {loading && <span>&nbsp;...loading</span>}
       <div className="block-content-wrapper">
         <ItemBoxSelect
           values={tone_options}
-          onSelect={(val) => onClickOption(`Change tone to ${val}`)}
+          onSelect={(val) => onClickOption(`Change tone to ${val}`, "Tone")}
           placeholder="Change Tone To..."
         />
         <ItemBoxSelect
           values={translate_options}
-          onSelect={(val) => onClickOption(`Translate to ${val}`)}
+          onSelect={(val) => onClickOption(`Translate to ${val}`, "Translate")}
           placeholder="Translate To..."
         />
-        {mocks.map((mock) => (
-          <ItemBox text={mock} key={mock} onClick={() => onClickOption(mock)} />
+        {improve_options.map((option) => (
+          <ItemBox
+            text={option}
+            key={option}
+            onClick={() => onClickOption(option, option)}
+          />
         ))}
       </div>
+      <BlockResearch api={api} onClickOption={onClickResearch} />
     </div>
   );
 };

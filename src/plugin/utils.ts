@@ -36,25 +36,36 @@ const postStorage = async (key: string, message: string) => {
   });
 };
 
-const generateUpdateText = async (message: string) => {
+const generateUpdateText = async (
+  message: string,
+  needSelectionText = true
+) => {
   const textValue = message;
   const nodes = figma.currentPage.selection as TextNode[];
 
-  if (nodes.length === 0) {
-    notify(MESSAGE_RESPONSE_TEXT.SELECT_TEXT);
-    return;
-  } else {
-    const node = nodes[0] as TextNode;
-    if (node.type !== "TEXT") {
+  try {
+    if (nodes.length === 0 && needSelectionText) {
       notify(MESSAGE_RESPONSE_TEXT.SELECT_TEXT);
       return;
     } else {
-      await figma.loadFontAsync({ family: "Inter", style: "Regular" });
-      node.characters = textValue;
-      node.fontSize = 18;
-      node.fills = [{ type: "SOLID", color: { r: 1, g: 0, b: 0 } }];
-      node.resize(800, node.height);
+      const node = (nodes[0] || {}) as TextNode;
+      if (node.type !== "TEXT" && needSelectionText) {
+        notify(MESSAGE_RESPONSE_TEXT.SELECT_TEXT);
+        return;
+      } else {
+        if (!nodes.length || !node || node.type !== "TEXT") {
+          generateResearch(message);
+          return;
+        }
+        await figma.loadFontAsync({ family: "Inter", style: "Regular" });
+        node.characters = textValue;
+        // node.fontSize = 18;
+        // node.fills = [{ type: "SOLID", color: { r: 1, g: 0, b: 0 } }];
+        node.resize(800, node.height);
+      }
     }
+  } catch (error) {
+    console.error(error);
   }
 };
 
