@@ -12,7 +12,7 @@ interface ITabsProps {
 const Tabs: React.FC<ITabsProps> = ({ items, initialKey }) => {
   const [activeTab, setActiveTab] = React.useState<string>(initialKey);
   return (
-    <div>
+    <>
       <div className="tab-label-wrapper">
         {items.map((item) => (
           <button
@@ -24,17 +24,16 @@ const Tabs: React.FC<ITabsProps> = ({ items, initialKey }) => {
           </button>
         ))}
       </div>
-      <div>
-        {items.map((item) => (
-          <div
-            style={{ display: activeTab === item.key ? "block" : "none" }}
-            key={item.key}
-          >
-            {item.children}
-          </div>
-        ))}
-      </div>
-    </div>
+      {items.map((item) => (
+        <div
+          style={{ display: activeTab === item.key ? "block" : "none" }}
+          key={item.key}
+          className="tab-content"
+        >
+          {item.children}
+        </div>
+      ))}
+    </>
   );
 };
 

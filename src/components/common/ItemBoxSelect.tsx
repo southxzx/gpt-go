@@ -7,6 +7,7 @@ import "../../ui.css";
 interface IItemBoxProps {
   values: string[];
   placeholder?: string;
+  disabled?: boolean;
   onSelect: (value: string) => void;
 }
 
@@ -14,6 +15,7 @@ const ItemBoxSelect: React.FC<IItemBoxProps> = ({
   values,
   onSelect,
   placeholder,
+  disabled = false,
 }) => {
   const [selectedValue, setSelectedValue] = React.useState<string>(
     placeholder || "..."
@@ -44,7 +46,7 @@ const ItemBoxSelect: React.FC<IItemBoxProps> = ({
       <div
         className={`item-box-wrapper item-box-dropdown-wrapper ${
           open ? "active" : ""
-        }`}
+        } ${disabled ? "disabled" : ""}`}
         onClick={onClick}
         ref={selectRef}
       >

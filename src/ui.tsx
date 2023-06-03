@@ -4,7 +4,8 @@ import ChatGPTApi from "./api/chatgpt-api";
 import Tabs from "./components/common/Tabs";
 import AboutScreen from "./screens/AboutScreen";
 import EnterKeyScreen from "./screens/EnterKeyScreen";
-import MainScreen from "./screens/MainScreen";
+import EditTextScreen from "./screens/EditTextScreen";
+import ResearchScreen from "./screens/ResearchScreen";
 import { POST_MESSAGE_TYPE } from "./types/post-message";
 
 import "./ui.css";
@@ -19,13 +20,13 @@ export const App = () => {
 
   const tab_items = [
     {
-      label: "Quick Access",
-      children: <MainScreen api={api} />,
+      label: "Edit Text",
+      children: <EditTextScreen api={api} />,
       key: "quick_access",
     },
     {
-      label: "Prompt Template",
-      children: <div>Prompt Template</div>,
+      label: "Research",
+      children: <ResearchScreen api={api} />,
       key: "prompt_template",
     },
     {

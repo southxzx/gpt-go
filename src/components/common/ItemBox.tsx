@@ -4,12 +4,20 @@ import "../../ui.css";
 
 interface IItemBoxProps {
   text: string;
+  disabled?: boolean;
   onClick: () => void;
 }
 
-const ItemBox: React.FC<IItemBoxProps> = ({ text, onClick }) => {
+const ItemBox: React.FC<IItemBoxProps> = ({
+  text,
+  disabled = false,
+  onClick,
+}) => {
   return (
-    <div className="item-box-wrapper" onClick={onClick}>
+    <div
+      className={`item-box-wrapper ${disabled ? "disabled" : ""}`}
+      onClick={onClick}
+    >
       <p>{text}</p>
     </div>
   );
