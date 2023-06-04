@@ -255,7 +255,7 @@ label {
   overflow-y: scroll;
   right: 0px;
   left: 0px;
-  max-height: 150px;
+  max-height: 135px;
 }
 .dropdown-option > p {
   margin: 0;
@@ -336,4 +336,33 @@ label {
     left: 100%;
     width: 100%;
   }
+}
+
+/* Suggestion Text Field */
+.suggestion-text-field {
+  height: 76px;
+  border: 1px solid var(--lightGrey);
+  border-radius: 2px;
+  outline: none;
+  font-family: inherit;
+  padding: 8px;
+  font-size: 14px;
+  line-height: 20px;
+}
+.suggestion-text-field .placeholder {
+  color: var(--grey);
+}
+.text-area-placeholder {
+  color: var(--grey);
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+.suggestion-text-field-wrapper {
+  position: relative;
+  margin-right: 8px;
+  width: 100%;
+}
+.suggestion-text-field-wrapper textarea:first-child {
+  background-color: transparent;
 }

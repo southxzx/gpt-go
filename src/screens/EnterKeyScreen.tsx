@@ -33,6 +33,14 @@ const EnterKeyScreen: React.FC<IEnterKeyScreenProps> = ({ onSubmitKey }) => {
     setScreenToShow(key);
   };
 
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSubmitKey();
+      e.stopPropagation();
+      e.preventDefault();
+    }
+  };
+
   if (screenToShow === "enter-key") {
     return (
       <div className="enter-key-screen">
@@ -43,6 +51,7 @@ const EnterKeyScreen: React.FC<IEnterKeyScreenProps> = ({ onSubmitKey }) => {
           placeholder="Enter OpenAI's API Key"
           value={key}
           onChange={(e) => setKey(e.target.value)}
+          onKeyDown={onKeyDown}
           className="key-input"
         />
         <div className="bottom-block">

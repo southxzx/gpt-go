@@ -4,6 +4,7 @@ interface TextFieldProps
   extends React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
   label?: string;
   isTextArea?: boolean;
+  isSuggestion?: boolean;
 }
 
 const TextField = (props: TextFieldProps) => {

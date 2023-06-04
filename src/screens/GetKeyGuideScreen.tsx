@@ -15,7 +15,7 @@ const GetKeyGuideScreen: React.FC<IGetKeyGuideScreenProps> = ({ onBack }) => {
       <div className="guide-list">
         <p>1. Login to OpenAI</p>
         <p>2. Select API</p>
-        <p>3. Click Personal, a dropdown list will be shown</p>
+        <p>3. At the top right corner, click Personal</p>
         <p>4. Select View API Keys</p>
         <p>5. Create your new secret key</p>
         <p>6. Copy that key and back to previous page &amp; paste there.</p>

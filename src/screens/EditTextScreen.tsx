@@ -39,16 +39,13 @@ const generateObj = new Map();
 
 const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
   const [inputValue, setInputValue] = React.useState<string>("");
+  const [quickAccessValue, setQuickAccessValue] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
   const [needSelectionText, setNeedSelectionText] =
     React.useState<boolean>(false);
 
   const onGenerate = async () => {
-    if (needSelectionText) {
-      getSelectionText();
-    } else {
-      generateResponse();
-    }
+    getSelectionText();
   };
 
   const getSelectionText = () => {
@@ -64,14 +61,15 @@ const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
 
   const generateResponse = async (selectionValue = "") => {
     setLoading(true);
+
     const messageValue = selectionValue
-      ? `${inputValue}: ${selectionValue}`
-      : inputValue;
+      ? `${inputValue || quickAccessValue}: ${selectionValue}`
+      : inputValue || quickAccessValue;
     const res = await api.sendMessage(messageValue);
     const message = get(
       res,
       "choices[0].message.content",
-      "Can not generate! Please try again!"
+      "Can not generate. Please try again!"
     );
     parent.postMessage(
       {
@@ -86,30 +84,10 @@ const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
     setLoading(false);
   };
 
-  // const onClickOption = (text: string, key: string) => {
-  //   generateObj.set(key, text);
-  //   let newText = "";
-  //   generateObj.forEach((value) => {
-  //     if (value) {
-  //       newText += newText.length ? `, ${value}` : value;
-  //     }
-  //   });
-  //   setInputValue(newText);
-  //   if (!needSelectionText) {
-  //     setNeedSelectionText(true);
-  //   }
-  // };
-
   const onClickOption = (text: string, key: string) => {
+    setQuickAccessValue(text);
+    setInputValue("");
     onGenerate();
-  };
-
-  const onClickResearch = (text: string, _: string) => {
-    setInputValue(text);
-    generateObj.clear();
-    if (needSelectionText) {
-      setNeedSelectionText(false);
-    }
   };
 
   const onReceiveMessageGenerate = (event: MessageEvent<any>) => {
@@ -119,11 +97,23 @@ const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
     }
   };
 
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!inputValue) {
+      return;
+    }
+    if (e.key === "Enter") {
+      onGenerate();
+      e.stopPropagation();
+      e.preventDefault();
+    }
+  };
+
   useEffect(() => {
     window.addEventListener("message", onReceiveMessageGenerate);
     return () =>
       window.removeEventListener("message", onReceiveMessageGenerate);
   }, [inputValue]);
+
   return (
     <div className="screen-container">
       <div>
@@ -134,6 +124,8 @@ const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
             onChange={(e) => setInputValue(e.target.value)}
             className="block-generate-input"
             placeholder="Generate copy for landing page..."
+            onKeyDown={onKeyDown}
+            autoFocus={true}
           />
           <Button
             disabled={!inputValue || loading}
