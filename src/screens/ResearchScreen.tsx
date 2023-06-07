@@ -27,13 +27,6 @@ const ResearchScreen: React.FC<IResearchScreenProps> = ({ api }) => {
     React.useState<boolean>(false);
   const inputRef = React.useRef<HTMLTextAreaElement | null>(null);
 
-  const onReceiveMessageGenerate = (event: MessageEvent<any>) => {
-    const { type, message } = event.data.pluginMessage;
-    if (type === POST_MESSAGE_TYPE.GET_SELECTION_TEXT) {
-      message && generateResponse(message);
-    }
-  };
-
   const onClickOption = (text: string, key: string) => {
     setInputValue(text);
     setShouldShowSuggestions(true);
@@ -64,12 +57,6 @@ const ResearchScreen: React.FC<IResearchScreenProps> = ({ api }) => {
     );
     setLoading(false);
   };
-
-  useEffect(() => {
-    window.addEventListener("message", onReceiveMessageGenerate);
-    return () =>
-      window.removeEventListener("message", onReceiveMessageGenerate);
-  }, [inputValue]);
 
   useEffect(() => {
     if (inputRef.current) {

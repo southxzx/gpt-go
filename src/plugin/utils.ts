@@ -10,7 +10,7 @@ const generateResearch = async (message: string) => {
   node.x = 50;
   node.characters = textValue;
   node.fontSize = 18;
-  node.fills = [{ type: "SOLID", color: { r: 1, g: 0, b: 0 } }];
+  node.fills = [{ type: "SOLID", color: { r: 0.3, g: 0.8, b: 0.6 } }];
   node.resize(800, node.height);
   figma.currentPage.appendChild(node);
   figma.currentPage.selection = [node];
@@ -69,7 +69,7 @@ const generateUpdateText = async (
   }
 };
 
-const getSelectionText = async () => {
+const getSelectionText = async (option: "edit" | "research" | "") => {
   const nodes = figma.currentPage.selection as TextNode[];
   const node = nodes[0] as TextNode;
 
@@ -84,6 +84,7 @@ const getSelectionText = async () => {
     } else {
       figma.ui.postMessage({
         type: POST_MESSAGE_TYPE.GET_SELECTION_TEXT,
+        option,
         message: node.characters || "",
       });
       return;

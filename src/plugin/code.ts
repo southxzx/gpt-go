@@ -10,7 +10,8 @@ import {
 
 figma.showUI(__html__, {
   width: 400,
-  height: 400,
+  height: 310,
+  // themeColors: true,
 });
 
 figma.ui.onmessage = (msg) => {
@@ -29,7 +30,7 @@ figma.ui.onmessage = (msg) => {
       postStorage(msg.key, message);
       break;
     case POST_MESSAGE_TYPE.GET_SELECTION_TEXT:
-      getSelectionText();
+      getSelectionText(msg.option || "");
       break;
     case POST_MESSAGE_TYPE.NOTIFY:
       notify(message);

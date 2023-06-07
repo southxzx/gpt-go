@@ -35,8 +35,6 @@ interface IEditTextScreenProps {
   api: ChatGPTApi;
 }
 
-const generateObj = new Map();
-
 const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
   const [inputValue, setInputValue] = React.useState<string>("");
   const [quickAccessValue, setQuickAccessValue] = React.useState<string>("");
@@ -53,6 +51,7 @@ const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
       {
         pluginMessage: {
           type: POST_MESSAGE_TYPE.GET_SELECTION_TEXT,
+          option: "edit",
         },
       },
       "*"
@@ -69,7 +68,7 @@ const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
     const message = get(
       res,
       "choices[0].message.content",
-      "Can not generate. Please try again!"
+      "Can not generate. Please try again or double-check your API Key!"
     );
     parent.postMessage(
       {
@@ -82,17 +81,17 @@ const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
       "*"
     );
     setLoading(false);
+    setQuickAccessValue("");
   };
 
   const onClickOption = (text: string, key: string) => {
     setQuickAccessValue(text);
     setInputValue("");
-    onGenerate();
   };
 
   const onReceiveMessageGenerate = (event: MessageEvent<any>) => {
-    const { type, message } = event.data.pluginMessage;
-    if (type === POST_MESSAGE_TYPE.GET_SELECTION_TEXT) {
+    const { type, message, option } = event.data.pluginMessage;
+    if (type === POST_MESSAGE_TYPE.GET_SELECTION_TEXT && option === "edit") {
       message && generateResponse(message);
     }
   };
@@ -112,7 +111,13 @@ const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
     window.addEventListener("message", onReceiveMessageGenerate);
     return () =>
       window.removeEventListener("message", onReceiveMessageGenerate);
-  }, [inputValue]);
+  }, [inputValue, quickAccessValue]);
+
+  useEffect(() => {
+    if (quickAccessValue) {
+      onGenerate();
+    }
+  }, [quickAccessValue]);
 
   return (
     <div className="screen-container">
