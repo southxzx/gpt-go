@@ -5,3 +5,60 @@ exports[`Button component renders correctly 1`] = `
   class="undefined btn "
 />
 `;
+
+exports[`ItemBox component renders correctly 1`] = `
+<div
+  class="item-box-wrapper "
+>
+  <p>
+    hello
+  </p>
+</div>
+`;
+
+exports[`ItemBoxSelect component renders correctly 1`] = `
+<div
+  class="dropdown-wrapper"
+>
+  <div
+    class="item-box-wrapper item-box-dropdown-wrapper  "
+  >
+    <p>
+      ...
+    </p>
+    <svg
+      fill="none"
+      height="12"
+      viewBox="0 0 12 12"
+      width="12"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g
+        clip-path="url(#clip0_110_4423)"
+      >
+        <rect
+          fill="white"
+          fill-opacity="0.01"
+          height="12"
+          width="12"
+        />
+        <path
+          d="M11.9045 3.20086L11.368 2.66433C11.2406 2.53698 11.0347 2.53698 10.9073 2.66433L6 7.5608L1.09269 2.66433C0.965338 2.53698 0.759399 2.53698 0.632042 2.66433L0.0955177 3.20086C-0.0318392 3.32822 -0.0318392 3.53416 0.0955177 3.66151L5.76967 9.33567C5.89703 9.46303 6.10297 9.46303 6.23033 9.33567L11.9045 3.66151C12.0318 3.53416 12.0318 3.32822 11.9045 3.20086Z"
+          fill="#20133A"
+        />
+      </g>
+      <defs>
+        <clippath
+          id="clip0_110_4423"
+        >
+          <rect
+            fill="white"
+            height="12"
+            width="12"
+          />
+        </clippath>
+      </defs>
+    </svg>
+  </div>
+</div>
+`;
