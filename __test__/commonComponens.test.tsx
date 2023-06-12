@@ -5,6 +5,7 @@ import "@testing-library/jest-dom";
 import Button from "../src/components/common/Button";
 import ItemBox from "../src/components/common/ItemBox";
 import ItemBoxSelect from "../src/components/common/ItemBoxSelect";
+import TextField from "../src/components/common/TextField";
 
 import mountTest from "./shared/mountTest";
 
@@ -132,5 +133,30 @@ describe("ItemBoxSelect component", () => {
     expect(
       container.querySelector(".dropdown-content")
     ).not.toBeInTheDocument();
+  });
+});
+
+describe("TetField component", () => {
+  const errorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+  mountTest(() => <TextField alt="hello" />);
+
+  it("renders correctly", () => {
+    const { container } = render(<TextField alt="hello" />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("should show textarea when pass isTextArea props", () => {
+    const { container } = render(<TextField alt="hello" isTextArea={true} />);
+    const textarea = container.querySelector("textarea");
+    expect(textarea).not.toEqual(null);
+  });
+
+  it("should trigger event correctly", () => {
+    const onChange = jest.fn();
+    const { container } = render(<TextField alt="hello" onChange={onChange} />);
+    fireEvent.change(container.querySelector("input") as HTMLElement, {
+      target: { value: "hello" },
+    });
+    expect(onChange).toHaveBeenCalled();
   });
 });

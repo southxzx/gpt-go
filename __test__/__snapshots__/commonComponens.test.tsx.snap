@@ -62,3 +62,9 @@ exports[`ItemBoxSelect component renders correctly 1`] = `
   </div>
 </div>
 `;
+
+exports[`TetField component renders correctly 1`] = `
+<input
+  alt="hello"
+/>
+`;
