@@ -43,10 +43,6 @@ describe("Block Generate component", () => {
     .spyOn(global, "postMessage")
     .mockImplementation(() => {});
 
-  // beforeEach(() => {
-  //   postMessageSpy.mockRestore();
-  // });
-
   it("should send message to Figma when click Generate", async () => {
     const mockMessage = "hello";
     const { container } = render(<BlockGenerate api={api} />);

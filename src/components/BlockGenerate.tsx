@@ -11,7 +11,6 @@ import { POST_MESSAGE_TYPE } from "../types/post-message";
 import ChatGPTApi from "../api/chatgpt-api";
 
 import "../ui.css";
-import BlockResearch from "./BlockResearch";
 
 const improve_options = ["Simplify", "Make Longer", "Make Shorter"];
 const tone_options = [

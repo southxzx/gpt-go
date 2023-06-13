@@ -136,3 +136,43 @@ exports[`Block Generate component renders correctly 1`] = `
   </div>
 </div>
 `;
+
+exports[`Block Research component renders correctly 1`] = `
+<div>
+  <label>
+    Research
+  </label>
+  <div
+    class="block-content-wrapper"
+  >
+    <div
+      class="item-box-wrapper "
+    >
+      <p>
+        Sample User Flow
+      </p>
+    </div>
+    <div
+      class="item-box-wrapper "
+    >
+      <p>
+        Page Structure
+      </p>
+    </div>
+    <div
+      class="item-box-wrapper "
+    >
+      <p>
+        User Personas
+      </p>
+    </div>
+    <div
+      class="item-box-wrapper "
+    >
+      <p>
+        Competitor Analysis
+      </p>
+    </div>
+  </div>
+</div>
+`;
