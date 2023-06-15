@@ -57,10 +57,9 @@ const generateUpdateText = async (
           generateResearch(message);
           return;
         }
-        await figma.loadFontAsync({ family: "Inter", style: "Regular" });
+        const fontName = getFontFromSelectedNode(node);
+        await figma.loadFontAsync(fontName);
         node.characters = textValue;
-        // node.fontSize = 18;
-        // node.fills = [{ type: "SOLID", color: { r: 1, g: 0, b: 0 } }];
         node.resize(800, node.height);
       }
     }
@@ -94,6 +93,24 @@ const getSelectionText = async (option: "edit" | "research" | "") => {
 
 const notify = (message: string) => {
   figma.notify(message);
+};
+
+const getFontFromSelectedNode = (textNode: TextNode) => {
+  if (textNode.fontName !== figma.mixed) {
+    return textNode.fontName;
+  }
+
+  for (let i = 0; i < textNode.characters.length; i++) {
+    const char = textNode.characters[i];
+    const fontName = textNode.getRangeFontName(i, i + 1) as FontName;
+    // get the first one.
+    return fontName;
+  }
+
+  return {
+    family: "Inter",
+    style: "Regular",
+  } as FontName;
 };
 
 export {

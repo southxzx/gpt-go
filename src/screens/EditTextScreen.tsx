@@ -38,9 +38,9 @@ interface IEditTextScreenProps {
 const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
   const [inputValue, setInputValue] = React.useState<string>("");
   const [quickAccessValue, setQuickAccessValue] = React.useState<string>("");
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [needSelectionText, setNeedSelectionText] =
+  const [shouldRegenerate, setShouldRegenerate] =
     React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   const onGenerate = async () => {
     getSelectionText();
@@ -75,7 +75,7 @@ const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
         pluginMessage: {
           type: POST_MESSAGE_TYPE.GENERATE,
           message: message,
-          needSelectionText,
+          needSelectionText: false,
         },
       },
       "*"
@@ -86,6 +86,7 @@ const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
 
   const onClickOption = (text: string, key: string) => {
     setQuickAccessValue(text);
+    setShouldRegenerate(!shouldRegenerate);
     setInputValue("");
   };
 
@@ -117,7 +118,7 @@ const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
     if (quickAccessValue) {
       onGenerate();
     }
-  }, [quickAccessValue]);
+  }, [quickAccessValue, shouldRegenerate]);
 
   return (
     <div className="screen-container">
@@ -135,7 +136,6 @@ const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
           <Button
             disabled={!inputValue || loading}
             onClick={onGenerate}
-            // loading={loading}
             style={{ minWidth: 82 }}
           >
             Generate
