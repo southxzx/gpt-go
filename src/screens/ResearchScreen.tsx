@@ -40,17 +40,17 @@ const ResearchScreen: React.FC<IResearchScreenProps> = ({ api }) => {
       ? `${inputValue}: ${selectionValue}`
       : inputValue;
     const res = await api.sendMessage(messageValue);
-    const message = get(
-      res,
-      "choices[0].message.content",
-      "Can not generate. Please try again!"
-    );
+    const message = get(res, "choices[0].message.content", "");
+    const errorMessage =
+      "Can not generate. Please try again or double-check your API Key!";
+
     parent.postMessage(
       {
         pluginMessage: {
           type: POST_MESSAGE_TYPE.GENERATE,
-          message: message,
+          message: message || errorMessage,
           needSelectionText: false,
+          isError: !Boolean(message),
         },
       },
       "*"

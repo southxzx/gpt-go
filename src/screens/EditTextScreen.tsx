@@ -37,6 +37,7 @@ interface IEditTextScreenProps {
 
 const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
   const [inputValue, setInputValue] = React.useState<string>("");
+  const [chosenOption, setChosenOption] = React.useState<string>("");
   const [quickAccessValue, setQuickAccessValue] = React.useState<string>("");
   const [shouldRegenerate, setShouldRegenerate] =
     React.useState<boolean>(false);
@@ -65,17 +66,18 @@ const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
       ? `${inputValue || quickAccessValue}: ${selectionValue}`
       : inputValue || quickAccessValue;
     const res = await api.sendMessage(messageValue);
-    const message = get(
-      res,
-      "choices[0].message.content",
-      "Can not generate. Please try again or double-check your API Key!"
-    );
+
+    const message = get(res, "choices[0].message.content", "");
+    const errorMessage =
+      "Can not generate. Please try again or double-check your API Key!";
+
     parent.postMessage(
       {
         pluginMessage: {
           type: POST_MESSAGE_TYPE.GENERATE,
-          message: message,
+          message: message || errorMessage,
           needSelectionText: false,
+          isError: !Boolean(message),
         },
       },
       "*"
@@ -85,6 +87,7 @@ const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
   };
 
   const onClickOption = (text: string, key: string) => {
+    setChosenOption(key);
     setQuickAccessValue(text);
     setShouldRegenerate(!shouldRegenerate);
     setInputValue("");
@@ -147,16 +150,23 @@ const EditTextScreen: React.FC<IEditTextScreenProps> = ({ api }) => {
           <ItemBoxSelect
             values={tone_options}
             disabled={loading}
-            onSelect={(val) => onClickOption(`Change tone to ${val}`, "Tone")}
+            onSelect={(val) =>
+              onClickOption(`Change this paragraph's tone to ${val}`, "Tone")
+            }
             placeholder="Change Tone To..."
+            isReset={chosenOption !== "Tone"}
           />
           <ItemBoxSelect
             values={translate_options}
             disabled={loading}
             onSelect={(val) =>
-              onClickOption(`Translate to ${val}`, "Translate")
+              onClickOption(
+                `Change this paragraph's language to ${val}`,
+                "Translate"
+              )
             }
             placeholder="Translate To..."
+            isReset={chosenOption !== "Translate"}
           />
           {improve_options.map((option) => (
             <ItemBox

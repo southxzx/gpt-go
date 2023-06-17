@@ -38,10 +38,16 @@ const postStorage = async (key: string, message: string) => {
 
 const generateUpdateText = async (
   message: string,
-  needSelectionText = true
+  needSelectionText = true,
+  isError = false
 ) => {
   const textValue = message;
   const nodes = figma.currentPage.selection as TextNode[];
+
+  if (isError) {
+    notify(message);
+    return;
+  }
 
   try {
     if (nodes.length === 0 && needSelectionText) {
@@ -60,7 +66,7 @@ const generateUpdateText = async (
         const fontName = getFontFromSelectedNode(node);
         await figma.loadFontAsync(fontName);
         node.characters = textValue;
-        node.resize(800, node.height);
+        // node.resize(800, node.height);
       }
     }
   } catch (error) {

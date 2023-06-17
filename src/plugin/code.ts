@@ -18,7 +18,7 @@ figma.ui.onmessage = (msg) => {
   const message = msg.message || "";
   switch (msg.type) {
     case POST_MESSAGE_TYPE.GENERATE:
-      generateUpdateText(message, msg.needSelectionText);
+      generateUpdateText(message, msg.needSelectionText, msg.isError);
       break;
     case POST_MESSAGE_TYPE.GENERATE_RESEARCH:
       generateResearch(message);

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import IconArrowUp from "../../assets/IconArrowUp";
 import useClickOutside from "../../hooks/useClickOutside";
 
@@ -9,6 +9,7 @@ interface IItemBoxProps {
   placeholder?: string;
   disabled?: boolean;
   onSelect: (value: string) => void;
+  isReset?: boolean;
 }
 
 const ItemBoxSelect: React.FC<IItemBoxProps> = ({
@@ -16,6 +17,7 @@ const ItemBoxSelect: React.FC<IItemBoxProps> = ({
   onSelect,
   placeholder,
   disabled = false,
+  isReset = false,
 }) => {
   const [selectedValue, setSelectedValue] = React.useState<string>(
     placeholder || "..."
@@ -40,6 +42,12 @@ const ItemBoxSelect: React.FC<IItemBoxProps> = ({
     onSelect(value);
     setOpen(false);
   };
+
+  useEffect(() => {
+    if (isReset) {
+      setSelectedValue(placeholder || "...");
+    }
+  }, [isReset]);
 
   return (
     <div className="dropdown-wrapper">
