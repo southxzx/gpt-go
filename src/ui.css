@@ -11,6 +11,7 @@
   --linkPurple: #6f34e1;
   --darkPurple: #20133a;
   --textPrimary: #20133a;
+  --orange: #ee6328;
 }
 
 * {
@@ -110,7 +111,41 @@ label {
   margin: 0;
   color: var(--textPrimary);
 }
+.about-screen .info {
+  padding-top: 24px;
+}
 
+.about-screen .info p {
+  margin: 0;
+  margin-bottom: 16px;
+  color: var(--textPrimary);
+}
+.about-screen .info a {
+  color: var(--textPrimary);
+}
+.about-screen .info span {
+  color: var(--orange);
+}
+
+.about-screen .bottom-block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+}
+
+.about-screen .bottom-block .left-bottom-block {
+  display: flex;
+  align-items: center;
+}
+.about-screen .bottom-block .left-bottom-block a:first-child {
+  margin-right: 12px;
+}
+.about-screen .bottom-block .left-bottom-block a {
+  color: var(--linkPurple);
+  cursor: pointer;
+  text-decoration: none;
+}
 /* Button */
 .btn {
   background-color: var(--lightPurple);
@@ -124,6 +159,11 @@ label {
   border-radius: 4px;
   cursor: pointer;
 }
+.btn-secondary {
+  background-color: #EDE9F4;
+  color: var(--textPrimary);
+}
+
 .btn-disabled {
   background-color: var(--extraLightPurple);
   cursor: not-allowed;
